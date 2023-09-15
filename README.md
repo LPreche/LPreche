@@ -19,7 +19,7 @@
 [![My Skills](https://skillicons.dev/icons?i=html,css,postgres,bootstrap,c,cpp,java,git,github&perline=5&theme=light)](https://skillicons.dev)
 
 ### Habilidades que estão em desenvolvimento
-[![My Skills](https://skillicons.dev/icons?i=angular,js,spring,&perline=5&theme=light)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=angular,js,nodejs,typescript,spring&perline=5&theme=light)](https://skillicons.dev)
 ### GitHub Stats
 ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=LPreche&theme=transparent&bg_color=000&border_color=30A3DC&show_icons=true&icon_color=30A3DC&title_color=E94D5F&text_color=FFF)
 ![Top Langs](https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api/top-langs/?username=LPreche&layout=compact&bg_color=000&border_color=30A3DC&title_color=E94D5F&text_color=FFF)
