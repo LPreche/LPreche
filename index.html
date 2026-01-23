@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luiz Paulo Reche - Desenvolvedor Web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#hero" class="logo">LPR</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-menu" id="nav-menu">
+                <h4 class="nav-menu-header">Luiz Paulo Reche</h4>
+                <ul>
+                    <li><a href="#sobre">Sobre Mim</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#portfolio">Portfólio</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+                <label class="theme-switch" for="theme-toggle" title="Alternar modo claro/escuro">
+                    <input type="checkbox" id="theme-toggle" />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seção Hero -->
+    <header class="hero" id="hero">
+        <!-- Vídeo de fundo -->
+        <video autoplay muted loop playsinline id="hero-video">
+            <!-- IMPORTANTE: Substitua 'path/to/your/video.mp4' pelo caminho do seu vídeo. -->
+            <!-- Sugestão: Use vídeos de sites como Pexels, Coverr ou Mazwai. -->
+            <source src="videos/video.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos em HTML5.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-intro">Olá, eu sou</p>
+                <h1>Luiz Paulo <span>Reche</span></h1>
+                <p class="hero-subtitle">Desenvolvedor Web focado em criar soluções digitais eficientes.</p>
+                <a href="#portfolio" class="btn">Conheça meu trabalho</a>
+            </div>
+        </div>
+        <div class="scroll-down-container">
+            <a href="#sobre" class="scroll-down" aria-label="Rolar para baixo">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Seção Sobre Mim -->
+        <section id="sobre" class="reveal">
+            <div class="container">
+                <h2>Sobre Mim</h2>
+                <div class="content">
+                    <div class="about-text">
+                        <p>Olá! Sou Luiz Paulo Reche, um entusiasta da tecnologia com uma trajetória que une a precisão da programação com a visão estratégica de negócios.</p>
+                        <ul class="about-list">
+                            <li>
+                                <i class="fas fa-graduation-cap"></i>
+                                <div>
+                                    <h4>Formação Híbrida</h4>
+                                    <p>Técnico em Informática com ênfase em Programação (SENAI/SC) e atualmente cursando Administração para aliar conhecimento técnico com visão de negócios.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-briefcase"></i>
+                                <div>
+                                    <h4>Experiência Prática</h4>
+                                    <p>Desde 2020 como Analista de Suporte, com foco em resolução de problemas e atendimento ao cliente.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-crosshairs"></i>
+                                <div>
+                                    <h4>Foco em Web</h4>
+                                    <p>Canalizando minha paixão para criar landing pages e aplicações web eficientes e intuitivas.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Sugestão: Troque 'https://via.placeholder.com/250' por uma URL de uma foto sua -->
+                    <img src="image/picture.png" alt="Foto de Luiz Paulo Reche" class="profile-pic">
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Serviços -->
+        <section id="servicos" class="reveal">
+            <div class="container skills-container">
+                <h2>Serviços</h2>
+                <p style="text-align:center; margin-bottom: 3rem;">Ofereço soluções digitais personalizadas para ajudar seu negócio a crescer e se destacar no ambiente online.</p>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <i class="fas fa-rocket"></i>
+                        <h4>Landing Page</h4>
+                        <p>Crie uma primeira impressão poderosa e transforme visitantes em clientes com uma página de destino moderna, rápida e otimizada para resultados.</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-desktop"></i>
+                        <h4>Sites Institucionais</h4>
+                        <p>Apresente sua empresa, seus produtos e serviços de forma profissional com um site responsivo, intuitivo e que fortaleça a sua marca na internet.</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-cogs"></i>
+                        <h4>Sistemas Web Sob Medida</h4>
+                        <p>Precisa de uma ferramenta específica? Desenvolvo pequenas aplicações e sistemas web para automatizar processos e otimizar a gestão do seu negócio.</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-sitemap"></i>
+                        <h4>Análise e Projeto de Sistemas</h4>
+                        <p>Entendo suas necessidades e desenho a arquitetura de sistemas eficientes e escaláveis para resolver seus desafios de negócio.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Seção Portfólio -->
+        <section id="portfolio" class="reveal">
+            <div class="container">
+                <h2>Portfólio</h2>
+                <p style="text-align:center; margin-bottom: 3rem;">Aqui você encontrará alguns dos meus projetos. Estou focado em criar soluções web limpas, responsivas e que atendam às necessidades do seu negócio.</p>
+                <div class="portfolio-grid">
+                    <!-- Projeto 1: Movimento Antioquia -->
+                    <div class="portfolio-item coming-soon">
+                        <h4>Movimento Antioquia</h4>
+                        <p>Um site institucional para um ministério de missões de uma igreja local.</p>
+                    </div>
+                    <!-- Projeto 2: Em breve -->
+                    <div class="portfolio-item coming-soon">
+                        <h4>Sistema de Gerenciamento de Eventos</h4>
+                        <p>Uma aplicação para gerenciar inscrições e atividades de eventos.</p>
+                    </div>
+                    <!-- Projeto 3: Em breve -->
+                    <div class="portfolio-item coming-soon">
+                        <h4>Website Institucional</h4>
+                        <p>Um site profissional para uma pequena empresa ou startup.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contato" class="reveal">
+            <div class="container">
+                <h2>Contato</h2>
+                <p>Interessado em criar algo juntos ou quer saber mais sobre meu trabalho? Entre em contato!</p>
+
+                <!-- Formulário de Contato -->
+                <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <label for="name" class="sr-only">Seu Nome</label>
+                    <label for="email" class="sr-only">Seu E-mail</label>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Seu Nome" required>
+                        <input type="email" id="email" name="email" placeholder="Seu E-mail" required>
+                    </div>
+                    <label for="message" class="sr-only">Sua Mensagem</label>
+                    <textarea id="message" name="message" placeholder="Sua Mensagem" rows="6" required></textarea>
+                    <button type="submit" class="btn">Enviar Mensagem</button>
+                </form>
+                <div id="form-status"></div>
+
+                <div class="contact-links">
+                    <a href="https://www.linkedin.com/in/luiz-paulo-r-146b1b102/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i><span class="sr-only">LinkedIn</span></a>
+                    <a href="https://github.com/LPreche" target="_blank" title="GitHub"><i class="fab fa-github"></i><span class="sr-only">GitHub</span></a>
+                    <a href="https://www.instagram.com/lp_reche/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i><span class="sr-only">Instagram</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Luiz Paulo Reche. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

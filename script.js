@@ -6,25 +6,12 @@ const body = document.body;
 
 // Função para aplicar o tema com base na string 'light' ou 'dark'
 const applyTheme = (theme) => {
-    const skillIcons = document.querySelectorAll('.skills-container img');
     if (theme === 'dark') {
         body.classList.add('dark-mode');
         themeToggle.checked = true;
-        // Atualiza os ícones de habilidades para o tema escuro
-        skillIcons.forEach(icon => {
-            if (icon.src.includes('skillicons.dev')) {
-                icon.src = icon.src.replace('theme=light', 'theme=dark');
-            }
-        });
     } else {
         body.classList.remove('dark-mode');
         themeToggle.checked = false;
-        // Atualiza os ícones de habilidades para o tema claro
-        skillIcons.forEach(icon => {
-            if (icon.src.includes('skillicons.dev')) {
-                icon.src = icon.src.replace('theme=dark', 'theme=light');
-            }
-        });
     }
 };
 
@@ -63,7 +50,76 @@ document.addEventListener('DOMContentLoaded', () => {
     const elementsToReveal = document.querySelectorAll('.reveal');
     elementsToReveal.forEach(el => scrollObserver.observe(el));
 
-    // 3. Lógica do formulário de contato com AJAX
+    // 3. Lógica do menu hamburguer
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    if (menuToggle && navMenu && overlay) {
+        const focusableElementsString = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+        const handleFocusTrap = (event) => {
+            if (event.key !== 'Tab') return;
+
+            const focusableElements = Array.from(navMenu.querySelectorAll(focusableElementsString));
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (event.shiftKey) { // Tabbing backwards
+                if (document.activeElement === firstElement) {
+                    event.preventDefault();
+                    lastElement.focus();
+                }
+            } else { // Tabbing forwards
+                if (document.activeElement === lastElement) {
+                    event.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        };
+
+        const closeMenu = () => {
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            body.classList.remove('no-scroll');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.querySelector('i').className = 'fas fa-bars';
+            document.removeEventListener('keydown', handleFocusTrap);
+            // Retorna o foco para o botão que abriu o menu
+            menuToggle.focus();
+        };
+
+        const openMenu = () => {
+            navMenu.classList.add('active');
+            overlay.classList.add('active');
+            body.classList.add('no-scroll');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.querySelector('i').className = 'fas fa-times';
+            document.addEventListener('keydown', handleFocusTrap);
+
+            // Após a transição do menu, foca no primeiro item
+            navMenu.addEventListener('transitionend', () => {
+                const firstFocusableElement = navMenu.querySelector(focusableElementsString);
+                if (firstFocusableElement) {
+                    firstFocusableElement.focus();
+                }
+            }, { once: true });
+        };
+
+        menuToggle.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        // Fecha o menu ao clicar em um link ou no overlay
+        navMenu.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', closeMenu));
+        overlay.addEventListener('click', closeMenu);
+    }
+
+    // 4. Lógica do formulário de contato com AJAX
     const form = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
 
@@ -98,4 +154,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     form.addEventListener("submit", handleSubmit);
+
 });
