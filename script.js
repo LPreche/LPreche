@@ -155,4 +155,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     form.addEventListener("submit", handleSubmit);
 
+    // 5. Lógica do botão "Voltar ao Topo"
+    const backToTopBtn = document.getElementById('back-to-top-btn');
+
+    if (backToTopBtn) {
+        const scrollThreshold = 300; // Distância em pixels para o botão aparecer
+
+        const toggleBackToTopButton = () => {
+            if (window.scrollY > scrollThreshold) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        };
+
+        window.addEventListener('scroll', toggleBackToTopButton);
+    }
+
 });

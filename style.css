@@ -585,6 +585,62 @@ footer {
     padding: 2rem 0;
 }
 
+/* Botão Flutuante do WhatsApp */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366; /* Cor do WhatsApp */
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: var(--shadow);
+    z-index: 999; /* Abaixo do menu mobile (1000) para não sobrepor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+/* Botão Voltar ao Topo */
+.back-to-top {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    bottom: 110px; /* Acima do botão do WhatsApp: 40px (bottom) + 60px (whats height) + 10px (gap) */
+    right: 45px; /* Alinhado com o centro do botão do WhatsApp */
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 20px;
+    box-shadow: var(--shadow);
+    z-index: 998; /* Abaixo do WhatsApp e do menu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    transform: scale(1.1);
+}
+
 /* Responsividade */
 @media(max-width: 768px) {
     .hero h1 {
@@ -712,6 +768,22 @@ footer {
     .form-group {
         flex-direction: column;
         gap: 1.5rem;
+    }
+
+    .whatsapp-float {
+        width: 55px;
+        height: 55px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 28px;
+    }
+
+    .back-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 85px; /* 20px (bottom) + 55px (whats height) + 10px (gap) */
+        right: 25px; /* Alinhado com o centro do botão do WhatsApp */
+        font-size: 18px;
     }
 }
 
