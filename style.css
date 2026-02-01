@@ -490,7 +490,7 @@ body.dark-mode .portfolio-item:hover {
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
- 0
+
 #contact-form input.error-field,
 #contact-form textarea.error-field {
     border-color: #721c24; /* Cor de erro do tema claro */
