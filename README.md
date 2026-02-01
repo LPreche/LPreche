@@ -4,7 +4,7 @@
 
 🎓 Técnico em Informatica - Enfâse em Programação
 
-📚 Acadêmico de Ciência da Computação - UFFS
+📚 Acadêmico de Administração - UFFS
 
 ### Conecte-se comigo
 
