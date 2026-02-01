@@ -1,6 +1,6 @@
 /* Reset básico e estilos globais */
 :root {
-    --primary-color: #00528c; /* Azul principal (contraste ajustado) */
+    --primary-color: #004578; /* Azul principal (contraste WCAG AA ajustado) */
     --secondary-color: #333;
     --background-color: #f4f4f4;
     --text-color: #333;
@@ -10,7 +10,7 @@
 }
 
 body.dark-mode {
-    --primary-color: #007bff; /* Azul um pouco mais claro para contraste */
+    --primary-color: #4DA6FF; /* Azul mais claro para contraste WCAG AA */
     --secondary-color: #222;
     --background-color: #121212;
     --text-color: #e0e0e0;
@@ -32,6 +32,11 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     transition: background-color 0.3s, color 0.3s;
+}
+
+/* Impede o scroll da página quando um modal ou menu está aberto */
+body.no-scroll {
+    overflow: hidden;
 }
 
 /* Classe para acessibilidade: esconde visualmente mas mantém para leitores de tela */
@@ -216,7 +221,7 @@ input:checked + .slider:before {
 .hero {
     /* O fundo agora é um vídeo com overlay */
     color: var(--light-text-color);
-    height: 90vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -485,6 +490,17 @@ body.dark-mode .portfolio-item:hover {
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
+ 0
+#contact-form input.error-field,
+#contact-form textarea.error-field {
+    border-color: #721c24; /* Cor de erro do tema claro */
+}
+
+body.dark-mode #contact-form input.error-field,
+body.dark-mode #contact-form textarea.error-field {
+    border-color: #f5c6cb; /* Cor de erro do tema escuro */
+}
+
 
 body.dark-mode #contact-form input,
 body.dark-mode #contact-form textarea {
@@ -494,50 +510,6 @@ body.dark-mode #contact-form textarea {
 #contact-form .btn {
     align-self: center;
     width: auto;
-}
-
-/* Estilos da Mensagem de Status do Formulário */
-#form-status {
-    padding: 0;
-    margin: 1.5rem auto 0;
-    border-radius: 5px;
-    text-align: center;
-    max-width: 700px;
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.3s, padding 0.3s, max-height 0.3s ease-in-out;
-}
-
-#form-status.success,
-#form-status.error {
-    opacity: 1;
-    padding: 1rem;
-    max-height: 100px; /* Altura suficiente para a mensagem */
-}
-
-#form-status.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-#form-status.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-body.dark-mode #form-status.success {
-    background-color: #1e4620;
-    color: #c6f6d5;
-    border-color: #2f6846;
-}
-
-body.dark-mode #form-status.error {
-    background-color: #5a2027;
-    color: #fed7d7;
-    border-color: #82202f;
 }
 
 /* Animação de entrada */
@@ -550,6 +522,68 @@ body.dark-mode #form-status.error {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Modal de Status */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: var(--card-bg-color);
+    color: var(--text-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    z-index: 1060;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.modal-overlay.active,
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.modal-title.success { color: #155724; }
+.modal-title.error { color: #721c24; }
+
+body.dark-mode .modal-title.success { color: #c3e6cb; }
+body.dark-mode .modal-title.error { color: #f5c6cb; }
+
+#modal-close-btn {
+    margin-top: 2rem;
+    border-radius: 5px;
+    width: auto;
+    align-self: center;
 }
 
 /* Seta de scroll */

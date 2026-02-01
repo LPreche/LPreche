@@ -22,6 +22,21 @@ themeToggle.addEventListener('change', () => {
     applyTheme(newTheme);
 });
 
+// Utility function to throttle events for performance.
+// It ensures the wrapped function is called at most once per `limit` milliseconds.
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
 // Intersection Observer para animações de scroll
 const observerOptions = {
     root: null, // viewport
@@ -42,11 +57,21 @@ const scrollObserver = new IntersectionObserver(observerCallback, observerOption
 
 // No carregamento da página
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Aplica o tema salvo
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
+    // 1. Aplica o tema salvo ou detecta a preferência do sistema
+    const initialTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(initialTheme);
 
-    // 2. Configura o observer para animar elementos
+    // 2. Adiciona um listener para mudanças no tema do sistema
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeMediaQuery.addEventListener('change', (e) => {
+        // Só muda o tema se o usuário não tiver uma preferência salva no localStorage
+        if (!localStorage.getItem('theme')) {
+            const newSystemTheme = e.matches ? 'dark' : 'light';
+            applyTheme(newSystemTheme);
+        }
+    });
+
+    // 3. Configura o observer para animar elementos
     const elementsToReveal = document.querySelectorAll('.reveal');
     elementsToReveal.forEach(el => scrollObserver.observe(el));
 
@@ -54,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const overlay = document.getElementById('overlay');
-
+    
     if (menuToggle && navMenu && overlay) {
         const focusableElementsString = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -119,57 +144,145 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', closeMenu);
     }
 
-    // 4. Lógica do formulário de contato com AJAX
-    const form = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
+    // 5. Lógica do Modal de Status
+    const createModalController = (modalId, overlayId) => {
+        const modal = document.getElementById(modalId);
+        const modalOverlay = document.getElementById(overlayId);
+        if (!modal || !modalOverlay) return null;
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        
-        // Limpa status anterior
-        formStatus.innerHTML = '';
-        formStatus.className = '';
+        const modalTitle = modal.querySelector('#modal-title');
+        const modalMessage = modal.querySelector('#modal-message');
+        const modalCloseBtn = modal.querySelector('#modal-close-btn');
+        let elementToFocusOnClose = null;
 
-        try {
-            const response = await fetch(event.target.action, {
-                method: form.method,
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
+        const open = (title, message, type, focusOnClose) => {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalTitle.className = 'modal-title'; // Reset classes
+            if (type) modalTitle.classList.add(type);
 
-            if (response.ok) {
-                formStatus.textContent = "Obrigado pela sua mensagem! Entrarei em contato em breve.";
-                formStatus.classList.add('success');
-                form.reset();
-            } else {
-                formStatus.textContent = "Oops! Houve um problema ao enviar sua mensagem.";
-                formStatus.classList.add('error');
+            modal.classList.add('active');
+            modalOverlay.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            body.classList.add('no-scroll');
+
+            elementToFocusOnClose = focusOnClose || document.activeElement;
+            modalCloseBtn.focus();
+        };
+
+        const close = () => {
+            modal.classList.remove('active');
+            modalOverlay.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            body.classList.remove('no-scroll');
+            if (elementToFocusOnClose) elementToFocusOnClose.focus();
+        };
+
+        modalCloseBtn.addEventListener('click', close);
+        modalOverlay.addEventListener('click', close);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) {
+                close();
             }
-        } catch (error) {
-            formStatus.textContent = "Oops! Houve um problema de conexão ao enviar sua mensagem.";
-            formStatus.classList.add('error');
-        }
-    }
-    form.addEventListener("submit", handleSubmit);
+        });
 
-    // 5. Lógica do botão "Voltar ao Topo"
+        return { open, close };
+    };
+
+    // 6. Lógica do formulário de contato com AJAX e validação
+    const form = document.getElementById('contact-form');
+    const modalController = createModalController('status-modal', 'status-modal-overlay');
+
+    const setupFormHandler = (formEl, modalCtrl) => {
+        if (!formEl || !modalCtrl) return;
+
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        const submitBtn = document.getElementById('submit-btn');
+
+        const validateEmail = (email) => {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        };
+
+        const validateForm = () => {
+            const fields = [
+                { input: nameInput, message: "Por favor, preencha seu nome." },
+                { input: emailInput, message: "Por favor, insira um e-mail válido.", validator: validateEmail },
+                { input: messageInput, message: "Por favor, escreva sua mensagem." }
+            ];
+
+            // Clear previous errors
+            fields.forEach(field => field.input.classList.remove('error-field'));
+
+            for (const field of fields) {
+                const value = field.input.value.trim();
+                const isValid = field.validator ? field.validator(value) : !!value;
+
+                if (!isValid) {
+                    modalCtrl.open("Erro de Validação", field.message, 'error', field.input);
+                    field.input.classList.add('error-field');
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        formEl.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!validateForm()) return;
+
+            // Desabilita o botão para evitar envios múltiplos
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+
+            const formData = new FormData(formEl);
+
+            try {
+                const response = await fetch(formEl.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' },
+                });
+
+                if (response.ok) {
+                    modalCtrl.open("Enviado com Sucesso!", "Obrigado pela sua mensagem! Entrarei em contato em breve.", 'success', submitBtn);
+                    formEl.reset();
+                } else {
+                    const result = await response.json().catch(() => ({})); // Previne erro se o corpo não for JSON
+                    const errorMessage = result.message || "Houve um problema ao enviar sua mensagem. Verifique os campos e tente novamente.";
+                    modalCtrl.open("Erro no Envio", errorMessage, 'error', submitBtn);
+                }
+            } catch (error) {
+                modalCtrl.open("Erro de Conexão", "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.", 'error', submitBtn);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        });
+    };
+
+    setupFormHandler(form, modalController);
+
+    // 7. Lógica do botão "Voltar ao Topo"
     const backToTopBtn = document.getElementById('back-to-top-btn');
 
     if (backToTopBtn) {
         const scrollThreshold = 300; // Distância em pixels para o botão aparecer
 
         const toggleBackToTopButton = () => {
-            if (window.scrollY > scrollThreshold) {
+            // Usamos `window.pageYOffset` para compatibilidade com browsers mais antigos
+            if (window.pageYOffset > scrollThreshold) {
                 backToTopBtn.classList.add('visible');
             } else {
                 backToTopBtn.classList.remove('visible');
             }
         };
 
-        window.addEventListener('scroll', toggleBackToTopButton);
+        // Otimização: 'throttle' evita que a função seja chamada excessivamente durante o scroll
+        window.addEventListener('scroll', throttle(toggleBackToTopButton, 200));
     }
 
 });
