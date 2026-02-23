@@ -285,4 +285,61 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', throttle(toggleBackToTopButton, 200));
     }
 
+    // 8. Lógica do Modal de Portfólio
+    const setupPortfolioModal = () => {
+        const modal = document.getElementById('portfolio-modal');
+        const modalOverlay = document.getElementById('portfolio-modal-overlay');
+        if (!modal || !modalOverlay) return;
+
+        const modalTitle = modal.querySelector('#portfolio-modal-title');
+        const modalIframe = modal.querySelector('iframe');
+        const modalCloseBtn = modal.querySelector('#portfolio-modal-close-btn');
+        const projectLinks = document.querySelectorAll('.portfolio-modal-trigger');
+        let elementToFocusOnClose = null;
+
+        const openModal = (url, title, triggerElement) => {
+            modalTitle.textContent = title;
+            modalIframe.src = url;
+
+            modal.classList.add('active');
+            modalOverlay.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            body.classList.add('no-scroll');
+
+            elementToFocusOnClose = triggerElement || document.activeElement;
+            modalCloseBtn.focus();
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            modalOverlay.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            body.classList.remove('no-scroll');
+            
+            // Importante: Limpar o src do iframe para parar a execução do site (ex: vídeos)
+            modalIframe.src = '';
+
+            if (elementToFocusOnClose) elementToFocusOnClose.focus();
+        };
+
+        projectLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const url = link.href;
+                const title = link.dataset.title || 'Visualização do Projeto';
+                openModal(url, title, link);
+            });
+        });
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    };
+
+    setupPortfolioModal();
+
 });

@@ -138,10 +138,12 @@
                 <p style="text-align:center; margin-bottom: 3rem;">Aqui você encontrará alguns dos meus projetos. Estou focado em criar soluções web limpas, responsivas e que atendam às necessidades do seu negócio.</p>
                 <div class="portfolio-grid">
                     <!-- Projeto 1: Movimento Antioquia -->
-                    <article class="portfolio-item coming-soon">
-                        <h4 aria-hidden="true">Movimento Antioquia</h4>
-                        <p aria-hidden="true">Um site institucional para um ministério de missões de uma igreja local.</p>
-                    </article>
+                    <a href="https://lpreche.github.io/ministerio-antioquia/" data-title="Movimento Antioquia" class="portfolio-card-link portfolio-modal-trigger" aria-label="Ver prévia do projeto Movimento Antioquia">
+                        <article class="portfolio-item">
+                            <h4>Movimento Antioquia</h4>
+                            <p>Um site institucional para um ministério de missões de uma igreja local.</p>
+                        </article>
+                    </a>
                     <!-- Projeto 2: Em breve -->
                     <article class="portfolio-item coming-soon">
                         <h4 aria-hidden="true">Sistema de Gerenciamento de Eventos</h4>
@@ -213,6 +215,20 @@
             <h3 id="modal-title" class="modal-title"></h3>
             <p id="modal-message"></p>
             <button id="modal-close-btn" class="btn">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Portfolio Project Modal -->
+    <div class="modal-overlay" id="portfolio-modal-overlay" role="presentation"></div>
+    <div id="portfolio-modal" class="modal portfolio-modal" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title" aria-hidden="true">
+        <div class="modal-content portfolio-modal-content">
+            <header class="portfolio-modal-header">
+                <h3 id="portfolio-modal-title" class="modal-title"></h3>
+                <button id="portfolio-modal-close-btn" class="portfolio-modal-close" aria-label="Fechar modal">&times;</button>
+            </header>
+            <div class="portfolio-modal-body">
+                <iframe src="" title="Visualização do Projeto"></iframe>
+            </div>
         </div>
     </div>
 

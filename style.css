@@ -421,6 +421,20 @@ body.dark-mode .portfolio-item:hover {
     margin-bottom: 0.5rem;
 }
 
+/* Wrapper de link para o card do portfólio */
+.portfolio-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Garante que o link ocupe o espaço do grid */
+    border-radius: 8px; /* Para que o outline de foco siga o card */
+}
+
+/* Melhora a acessibilidade do foco para o card clicável */
+.portfolio-card-link:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
 /* Estilo para projetos "Em Breve" */
 .portfolio-item.coming-soon {
     position: relative;
@@ -584,6 +598,63 @@ body.dark-mode .modal-title.error { color: #f5c6cb; }
     border-radius: 5px;
     width: auto;
     align-self: center;
+}
+
+/* Portfolio Modal Specific Styles */
+.modal.portfolio-modal {
+    width: 95%;
+    height: 90%;
+    max-width: 1600px; /* Allow it to be wide on large screens */
+    padding: 0; /* Remove padding to allow content to fill it */
+}
+
+.portfolio-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}
+
+.portfolio-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--card-bg-color);
+    border-bottom: 1px solid #ddd;
+    flex-shrink: 0; /* Impede que o header encolha */
+}
+
+body.dark-mode .portfolio-modal-header {
+    border-bottom-color: #444;
+}
+
+.portfolio-modal-header .modal-title {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+}
+
+.portfolio-modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+
+.portfolio-modal-body {
+    flex-grow: 1;
+    overflow: hidden; /* For the iframe */
+    background-color: #fff; /* Fundo branco para o iframe carregar */
+}
+
+.portfolio-modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 /* Seta de scroll */
